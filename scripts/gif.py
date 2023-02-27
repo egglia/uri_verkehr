@@ -23,13 +23,13 @@ def make_gif(gif_name) -> None:
 
         # Define the text label to add
         text = f'Werktagverkehr in Altdorf für t = {t.strftime("%H:%M")} ' \
-               f'© André Eggli'
+               f'[Grafik: André S. Eggli]'
 
         # Define the font to use for the text label
-        font = ImageFont.truetype('arial.ttf', 22)
+        font = ImageFont.truetype('arial.ttf', 30)
 
         # Add the text label to the image
-        draw.text((10, image_png.height - 30), text, fill=(0, 0, 0), font=font)
+        draw.text((10, image_png.height - 50), text, fill=(0, 0, 0), font=font)
 
         images.append(image_png)
 

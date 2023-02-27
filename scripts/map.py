@@ -29,11 +29,11 @@ def endkoord(startkoord: list,
     lat2 = math.asin(math.sin(lat1) * math.cos(lenght_km / RAD_EARTH)
                      + math.cos(lat1) * math.sin(lenght_km / RAD_EARTH)
                      * math.cos(brng))
-    lon2 = lon1 + (math.atan2(math.sin(brng)
-                   * math.sin(lenght_km / RAD_EARTH) * math.cos(lat1)),
-                   math.cos(lenght_km / RAD_EARTH) - math.sin(lat1)
-                   * math.sin(lat2))
-
+    lon2 = lon1 + math.atan2(math.sin(brng)
+                             * math.sin(lenght_km / RAD_EARTH)
+                             * math.cos(lat1),
+                             math.cos(lenght_km / RAD_EARTH) - math.sin(lat1)
+                             * math.sin(lat2))
     # Convert destination coordinates to degrees
     lat2 = math.degrees(lat2)
     lon2 = math.degrees(lon2)

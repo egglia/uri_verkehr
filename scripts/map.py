@@ -1,6 +1,7 @@
 from os import path
 import folium
 from folium import plugins
+from folium.features import DivIcon
 import io
 import math
 import numpy as np
@@ -100,7 +101,36 @@ class VerkehrsMessPunkt:
 
 if __name__ == "__main__":
 
-    standorte: list = [VerkehrsMessPunkt("Lawil AG Haus Nr. 41",
+    standorte: list = [VerkehrsMessPunkt("Dorfeinfahrt Galabau AG Hess",
+                                         [46.882652, 8.618019],
+                                         "6202.pdf",
+                                         60),  # Richtung 1: Altdorf
+                       VerkehrsMessPunkt("Pumpstation ARA Altdorf",
+                                         [46.883908, 8.626009],
+                                         "6015.pdf",
+                                         120),  # Altdorf
+                       VerkehrsMessPunkt("Steinmatt/Gewerbezentrum",
+                                         [46.872906, 8.632481],
+                                         "6013.pdf",
+                                         170),  # Schattdorf
+                       VerkehrsMessPunkt("Attinghauserstrasse",
+                                         [46.867579, 8.635087],
+                                         "6019.pdf",
+                                         200),  # Rynächtstrasse
+                       VerkehrsMessPunkt("Nördlich Schlosserei Trögli",
+                                         [46.881264, 8.623339],
+                                         "6002.pdf",
+                                         160),  # Attinghausen
+                       VerkehrsMessPunkt("Kollegium",
+                                         [46.873726, 8.650481],
+                                         "6026.pdf",
+                                         175),  # Schattdorf
+                       # 6017.pdf Nur Rohdaten Totalwerte :(
+                       # VerkehrsMessPunkt("Kant. Verwaltung",
+                       #                   [46.874779, 8.652993],
+                       #                   "6017.pdf",
+                       #                   115),  # Glarus
+                       VerkehrsMessPunkt("Lawil AG Haus Nr. 41",
                                          [46.897804, 8.625363],
                                          "5401.pdf",
                                          160),  # nach Altdorf
@@ -201,6 +231,23 @@ if __name__ == "__main__":
                                     dash_array=[0, 100], weight=10,
                                     color=color(stdort.r2_deg))
             map_osm.add_child(pfeil)
+
+        # Add legend: Arrow of 1 km corresponds to 1000 cars per hour
+        legend_corner = [46.866227, 8.596747]
+        endk = endkoord(legend_corner, 0, 1.)  # 1 km nach 0° Nord
+        pfeil = plugins.AntPath(locations=[legend_corner, endk],
+                                dash_array=[0, 100], weight=10,
+                                color=color(0))
+        map_osm.add_child(pfeil)
+        text: str = " 1000 Fz/h"
+        folium.map.Marker(
+            endk,
+            icon=DivIcon(
+                icon_size=(150, 36),
+                icon_anchor=(0, 0),
+                html='<div style="font-size: 24pt">%s</div>' % text,
+            )
+        ).add_to(map_osm)
 
         print(f"..Starte Extraktion als PNG für t={tidx}")
         # Requires Firefox browser and 'pip install SELENIUM' to work

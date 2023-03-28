@@ -31,7 +31,7 @@ do
 
         "lint")
             # flake8/pylint is a tool for automated code style checks
-            flake8 ./data ./unittest ./scripts
+            flake8 ./data ./map ./scripts
             echo flake8 finished
             ;;
 

@@ -3,6 +3,29 @@ import datetime as dt
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import os
+
+class Csv():
+
+    def read_csv(self, csvs):
+        c = []
+        for csv in csvs:
+            a = pd.read_csv(csv)
+            c.append(a)
+        return c
+
+    def __init__(self, csvs: list):
+
+        self.get_csvs = Csv.read_csv(csvs)
+
+
+
+
+
+csv_names = []
+csv = Csv(csv_names)
+
+
 
 start_datetime_dataset = dt.datetime(2011, 1, 1, 0, 0, 0)
 print('Start-time of data: ' + start_datetime_dataset.strftime('%y/%m/%d %H:%M:%S'))
@@ -36,32 +59,14 @@ def read_csv_files(list_datasets_names):
         list_datasets = np.squeeze(data)
     return list_datasets
 
-list_datasets_names = ['Data_gasspeicherfuellstaende_AU.csv', 'Data_gasspeicherfuellstaende_EU.csv', 'Data_gasspeicherfuellstaende_FR.csv', 'Data_gasspeicherfuellstaende_GER.csv', 'Data_gasspeicherfuellstaende_IT.csv']
+list_datasets_names = ['example.csv']
 list_datasets = read_csv_files(list_datasets_names)
-list_labels = ['AU', 'EU', 'FR', 'GER', 'IT']
+list_cols = ['example']
 comparison_data_index = 1
 colors = ['g', 'b', 'm', 'c', 'y', 'k']
 
 fig, ax = plt.subplots(1, 1, figsize=(16, 9), dpi=80)
-for i in range(0, len(list_datasets_names)):
-    if i == comparison_data_index:
-        ax.plot(list_datetime, list_datasets[i], color='r')
-    else:
-        ax.plot(list_datetime, list_datasets[i], linestyle='solid', color=colors[i], alpha=0.2)
 
-ax.set_title('Prozentuale Gasspeicherfüllstände', fontsize=18)
-ax.legend(list_labels)
-leg = ax.get_legend()
-
-for i in range(0, len(list_datasets_names)):
-    if i == comparison_data_index:
-        leg.legend_handles[i].set_color('r')
-        leg.legend_handles[i].set_alpha(1)
-    else:
-        leg.legend_handles[i].set_color(colors[i])
-
-plt.xlabel('Datum')
-plt.ylabel('Prozentualer Füllstand der Gasspeicher')
 plt.gca().spines["top"].set_alpha(0)
 plt.gca().spines["bottom"].set_alpha(.3)
 plt.gca().spines["right"].set_alpha(0)

@@ -1,18 +1,15 @@
 import pandas as pd
 import os
 
-localpath = 'C://Users//taseehol//PycharmProjects//uri_verkehr//data//DatenSisag//Verkehrsdaten//Rohdaten Auswertungfiles xls//2022'
-csvs = ['6004_2022.xlsx', '6009_2022.xlsx']
 
-def path(csvs, localpath):
+def path(csv_names, path_local):
     paths = []
-    for csv in csvs:
-        path = os.path.join(localpath, csv)
+    for name in csv_names:
+        path = os.path.join(path_local, name)
         paths.append(path)
     return paths
 
-
-def get_csv(paths):
+def dataframe(paths):
     dfs = []
     for path in paths:
         df = pd.read_excel(path)
@@ -31,8 +28,10 @@ def datetime(dfs):
         datetimes.append(datetime)
     return datetimes
 
-paths = path(csvs, localpath)
-dfs = get_csv(paths)
-datetime_dfs = datetime(dfs)
 
-print(datetime_dfs[0])
+class Data:
+
+    def __init__(self, csvs, localpath):
+        paths = path(csvs, localpath)
+        self.dataframes = dataframe(paths)
+        self.datetimes = datetime(self.dataframes)

@@ -5,8 +5,8 @@ import uuid
 device_id = str(uuid.getnode())
 if device_id == "101707883750031":  # Julian
     local_path = 'C://Users//taseehol//PycharmProjects//uri_verkehr//data//DatenSisag//Verkehrsdaten//Rohdaten Auswertungfiles xls//2022'
-else:
-    local_path = "C://Users//enriq//Desktop//uri_verkehr//data//DatenSisag//Verkehrsdaten//Rohdaten Auswertungfiles xls//2022"
+else:  # somebody else
+    local_path = 'C://Users//enriq//Desktop//uri_verkehr//data//DatenSisag//Verkehrsdaten//Rohdaten Auswertungfiles xls//2022'
 
 csvs = ['6004_2022.xlsx']
 

@@ -36,7 +36,7 @@ executing==1.2.0
 fastjsonschema==2.16.2
 Fiona==1.8.22
 Flask==2.2.3
-folium==0.14.0
+folium
 fonttools==4.38.0
 fsspec==2023.3.0
 geojson==3.0.1
@@ -112,7 +112,7 @@ pyrsistent==0.19.2
 python-dateutil==2.8.2
 pytz==2022.7
 pyviz-comms==2.2.1
-pywin32 @ file:///C:/Users/enriq/AppData/Local/Temp/is-D20UV.tmp/Python/pywin32-301-cp39-cp39-win_amd64.whl
+pywin32
 PyYAML==6.0
 pyzmq==24.0.1
 quantecon==0.6.0

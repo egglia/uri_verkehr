@@ -27,3 +27,4 @@ for i, csv in enumerate(csvs):
                              marker=dict(size=3)))
 
 fig.show()
+

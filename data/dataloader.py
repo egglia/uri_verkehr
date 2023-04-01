@@ -1,9 +1,9 @@
 from pandas.core.indexes.datetimes import DatetimeIndex
-from pandas.core.frame import DataFrame as df
 from os.path import isfile
 from pdfreader import SimplePDFViewer
 import numpy as np
 import pandas as pd
+from pandas.core.frame import DataFrame as df
 from os import path
 
 # Constants
@@ -68,8 +68,36 @@ def extract_from_pdf(name: str,
         return out
 
 
-if __name__ == "__main__":
+def extract_pickle() -> df:
     datapath = path.dirname(path.abspath(__file__))
-    datapath = path.abspath(path.join(datapath, "..",
-                                      "data", "geo.uri", "6025.pdf"))
-    print(extract_from_pdf("EWA", TIME_24h, datapath))
+    picklef: str = path.abspath(path.join(datapath, "DatenSisag",
+                                          "dfipynb.pickle"))
+    assert path.isfile(picklef)
+    dataf: df = pd.read_pickle(picklef)
+    dataf.dropna(inplace=True)
+    print(dataf.head(100))
+
+    def anpassung_zeit(df):
+        df.HHMM = df.HHMM / 100
+        df['HHMM'] = df['HHMM'].replace(24.0, 23.59)
+        df['Datum und Zeit'] = df["Datum"].astype(str).str[:10] \
+            + ' ' + df.HHMM.astype(str)
+        df['Datumszeit'] = pd.to_datetime(df['Datum und Zeit'],
+                                          format='%Y-%m-%d %H.%M',
+                                          errors="coerce")
+        return df
+
+    def delete_rows(df):
+        df = df[df['Querschnitt'].notna()]
+        df.drop(columns=["Datum", "HHMM", "Datum und Zeit"], inplace=True)
+        return df
+
+    dataf = anpassung_zeit(dataf)
+    dataf = delete_rows(dataf)
+    return dataf
+
+
+if __name__ == "__main__":
+    data: df = extract_pickle()
+    print(data.columns)
+    print(data.head(100))

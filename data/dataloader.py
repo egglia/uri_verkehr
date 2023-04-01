@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from pandas.core.frame import DataFrame as df
 from os import path
-import time
+import os
 from joblib import Parallel, delayed
 
 
@@ -78,7 +78,6 @@ def extract_pickle() -> df:
     assert path.isfile(picklef)
     dataf: df = pd.read_pickle(picklef)
     dataf.dropna(inplace=True)
-    print(dataf.head(100))
 
     def anpassung_zeit(df):
         df.HHMM = df.HHMM / 100
@@ -99,35 +98,35 @@ def extract_pickle() -> df:
     dataf = delete_rows(dataf)
     return dataf
 
-def load_xlsx_to_pickle(path, picklefilename) -> df
+
+def load_xlsx_to_pickle(path, picklefilename) -> df:
     # iterate over files in
     # that directory
     filenames = []
     for filename in os.listdir(path):
         f = os.path.join(path, filename)
         # checking if it is a file
-        #if os.path.isfile(f):
+        # if os.path.isfile(f):
         filenames.append(f)
 
     def loop(file):
-        variant=""
+        variant = ""
         try:
             dfxlsx = pd.read_excel(file, sheet_name=None)
             if len(dfxlsx.items()) == 1:
-                dfxlsx=pd.concat(dfxlsx.values(), names=dfxlsx.keys())#
-                variant="1:"
+                dfxlsx = pd.concat(dfxlsx.values(), names=dfxlsx.keys())
+                variant = "1:"
                 pass
             else:
-                dfxlsx=pd.concat(dfxlsx.values(), names=dfxlsx.keys())
-                variant="2:"
+                dfxlsx = pd.concat(dfxlsx.values(), names=dfxlsx.keys())
+                variant = "2:"
         except Exception as e:
             print(e)
         print(variant+"file:"+file)
         return dfxlsx
 
-
-    df = Parallel(n_jobs=-1, verbose=0, prefer="threads")(delayed(loop)(file) for file in filenames)
-    df_concat = pd.DataFrame()
+    df = Parallel(n_jobs=-1, verbose=0,
+                  prefer="threads")(delayed(loop)(file) for file in filenames)
     df_concat = pd.concat(df, ignore_index=True)
     df_concat.to_pickle(picklefilename)
     return df_concat

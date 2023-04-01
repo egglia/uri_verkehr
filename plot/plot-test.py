@@ -21,11 +21,12 @@ for filename in os.listdir(directory):
             messstelle = filename[0:4]
         # if dataframe exists then append data to dataframe
         tmp_df = pd.read_excel(f, sheet_name=None)
+
         if messstelle in dflist:
             old = dflist[messstelle]
             frames = [old, tmp_df]
             con = pd.concat(frames)
-            con.to_excel("merge.xlsx")
+            con.to_pickle("merge.pickle")
         else:
             dflist[messstelle] = tmp_df
 
